@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ClassUtils;
 
 import java.lang.reflect.Method;
 
@@ -16,6 +17,10 @@ public class PostProxyInvokerContextListener implements ApplicationListener<Cont
     @Autowired
     private ConfigurableListableBeanFactory beanFactory;
 
+
+    /**
+    *   TODO find a way to get original class name from custom proxy, i.e. get TerminatorQuoter from it's proxy
+    */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         ApplicationContext context = contextRefreshedEvent.getApplicationContext();
@@ -24,7 +29,9 @@ public class PostProxyInvokerContextListener implements ApplicationListener<Cont
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(name);
             String originalClassName = beanDefinition.getBeanClassName();
             try {
-                Class<?> originalClass = Class.forName(originalClassName);
+                Object o = beanFactory.getBean(name);
+                Class hehClass = o.getClass();
+                Class<?> originalClass = ClassUtils.getUserClass(hehClass);//Class.forName(originalClassName);
                 Method[] methods = originalClass.getMethods();
                 for (Method method : methods) {
                     if (method.isAnnotationPresent(PostProxy.class)) {
@@ -34,7 +41,7 @@ public class PostProxyInvokerContextListener implements ApplicationListener<Cont
                     }
                 }
             } catch (Exception e) {
-                System.out.println("It's a Java Config, so there are no root bean classes for bean factory");
+                e.printStackTrace();
             }
         }
     }

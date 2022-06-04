@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import javax.annotation.PostConstruct;
 
 @Profiling
+@DeprecatedClass(newImpl = T1000.class)
 public class TerminatorQuoter implements Quoter{
 
     @InjectRandomInt(min = 2, max = 7)
@@ -38,5 +39,13 @@ public class TerminatorQuoter implements Quoter{
         for (int i = 0; i < repeat; i++) {
             System.out.println(message);
         }
+    }
+
+    public int getRepeat() {
+        return repeat;
+    }
+
+    public void setRepeat(int repeat) {
+        this.repeat = repeat;
     }
 }

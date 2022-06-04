@@ -9,6 +9,6 @@ import quoters.TerminatorQuoter;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         ApplicationContext context = new AnnotationConfigApplicationContext(SpringTheRipperContextConfiguration.class);
-        context.getBean(Quoter.class).sayQuote();
+        //context.getBean(Quoter.class).sayQuote();
     }
 }
