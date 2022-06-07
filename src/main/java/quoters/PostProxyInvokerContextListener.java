@@ -17,10 +17,6 @@ public class PostProxyInvokerContextListener implements ApplicationListener<Cont
     @Autowired
     private ConfigurableListableBeanFactory beanFactory;
 
-
-    /**
-    *   TODO find a way to get original class name from custom proxy, i.e. get TerminatorQuoter from it's proxy
-    */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         ApplicationContext context = contextRefreshedEvent.getApplicationContext();
@@ -29,9 +25,7 @@ public class PostProxyInvokerContextListener implements ApplicationListener<Cont
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(name);
             String originalClassName = beanDefinition.getBeanClassName();
             try {
-                Object o = beanFactory.getBean(name);
-                Class hehClass = o.getClass();
-                Class<?> originalClass = ClassUtils.getUserClass(hehClass);//Class.forName(originalClassName);
+                Class<?> originalClass = Class.forName(originalClassName);
                 Method[] methods = originalClass.getMethods();
                 for (Method method : methods) {
                     if (method.isAnnotationPresent(PostProxy.class)) {

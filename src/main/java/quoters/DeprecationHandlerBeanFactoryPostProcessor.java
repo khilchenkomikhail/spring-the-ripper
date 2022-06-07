@@ -6,12 +6,9 @@ import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class DeprecationHandlerBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
-    /**
-     *   TODO find a way to get original class name from custom proxy, i.e. get TerminatorQuoter from it's proxy
-     */
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
         String[] names = configurableListableBeanFactory.getBeanDefinitionNames();
