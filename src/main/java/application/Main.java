@@ -9,6 +9,7 @@ import quoters.TerminatorQuoter;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        ApplicationContext context = new ClassPathXmlApplicationContext("terminator-config.xml");
+        ApplicationContext context = new AnnotationConfigApplicationContext(SpringTheRipperContextConfiguration.class);
+//        ApplicationContext context = new ClassPathXmlApplicationContext("terminator-config.xml");
     }
 }

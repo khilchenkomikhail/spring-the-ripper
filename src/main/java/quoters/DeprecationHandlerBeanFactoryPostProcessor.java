@@ -15,6 +15,12 @@ public class DeprecationHandlerBeanFactoryPostProcessor implements BeanFactoryPo
         for (String name : names) {
             BeanDefinition beanDefinition = configurableListableBeanFactory.getBeanDefinition(name);
             String beanClassName = beanDefinition.getBeanClassName();
+
+            // Костыль для работы с Java-конфигурацией, классы бинов недоступны
+            if (beanClassName == null) {
+                continue;
+            }
+
             try {
                 Class<?> beanClass = Class.forName(beanClassName);
                 DeprecatedClass annotation = beanClass.getAnnotation(DeprecatedClass.class);
